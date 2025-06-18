@@ -86,7 +86,7 @@ Legg inn følgende secrets:
 
 </details>
 
-##### VIKTIG!
+##### VIKTIG
 
 Dersom alt ble gjort riktig, skal det skal også ha blitt opprettet en fil som heter `providers.tf` i `infrastructure`-mappen.
 Denne filen inneholder konfigurasjonen som lar Terraform vite hvordan den skal bruke Azure, både for å autentisere seg og for å lagre state.
