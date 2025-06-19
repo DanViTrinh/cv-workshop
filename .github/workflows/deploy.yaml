@@ -27,14 +27,6 @@ jobs:
           # The ,, operator converts the string to lowercase
           LOWER_REPO="${{ github.repository }}"
           echo "repository=${LOWER_REPO,,}" >> "$GITHUB_OUTPUT"
-
-      - name: Use the lowercase image name
-        run: |
-          # Access the output from the previous step
-          IMAGE_NAME='ghcr.io/${{ steps.lower_repo.outputs.repository }}'
-          echo "The image name is: $IMAGE_NAME"
-          env.IMAGE_NAME=$IMAGE_NAME
-          
           
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,8 +48,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: 'true'
-          tags: '${{ env.IMAGE_NAME }}/${{ matrix.app }}:latest,${{ env.IMAGE_NAME}}/${{ matrix.app }}:${{ github.sha }}'
-          cache-from: 'type=registry,ref=${{ env.IMAGE_NAME }}:latest'
+          img: ${{ steps.lower_repo.outputs.message }}
+          tags: '${{ img }}/${{ matrix.app }}:latest,${{ img }}/${{ matrix.app }}:${{ github.sha }}'
+          cache-from: 'type=registry,ref=${{ img }}:latest'
           cache-to: 'type=inline'
           context: '${{ matrix.app }}'
 
