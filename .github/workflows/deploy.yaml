@@ -9,10 +9,9 @@ on:
       - 'infrastructure/**'
       - '.github/workflows/deploy.yaml'
 
-  
 env:
-  run: echo "REPO=${github.repository@L}" >> "${github.repository}"
-  IMAGE_NAME: 'ghcr.io/${{ REPO }}'
+  IMAGE_NAME: ${ IMAGE_NAME }
+
 
 jobs:
   build:
@@ -26,6 +25,19 @@ jobs:
       actions: read
       packages: write
     steps:
+      - name: Set lowercase repository name
+        id: lower_repo # Give this step an ID to reference its outputs
+        run: |
+          # The ,, operator converts the string to lowercase
+          LOWER_REPO="${{ github.repository }}"
+          echo "repository=${LOWER_REPO,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Use the lowercase image name
+        run: |
+          # Access the output from the previous step
+          IMAGE_NAME='ghcr.io/${{ steps.lower_repo.outputs.repository }}'
+          echo "The image name is: $IMAGE_NAME"
+          
       - name: Checkout repository
         uses: actions/checkout@v4
 
