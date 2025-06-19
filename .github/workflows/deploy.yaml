@@ -12,7 +12,7 @@ on:
   
 env:
   run: echo "REPO=${github.repository@L}" >> "${github.repository}"
-  IMAGE_NAME: 'ghcr.io/${ REPO }'
+  IMAGE_NAME: 'ghcr.io/${{ REPO }}'
 
 jobs:
   build:
