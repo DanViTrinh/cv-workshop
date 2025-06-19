@@ -45,8 +45,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: 'true'
-          tags: '${{ steps.lower_repo.outputs.message }}/${{ matrix.app }}:latest,${{ steps.lower_repo.outputs.message }}/${{ matrix.app }}:${{ github.sha }}'
-          cache-from: 'type=registry,ref=${{ steps.lower_repo.outputs.message }}:latest'
+          tags: '${{ steps.lower_repo.outputs.repository }}/${{ matrix.app }}:latest,${{ steps.lower_repo.outputs.repository }}/${{ matrix.app }}:${{ github.sha }}'
+          cache-from: 'type=registry,ref=${{ steps.lower_repo.outputs.repository }}:latest'
           cache-to: 'type=inline'
           context: '${{ matrix.app }}'
 
