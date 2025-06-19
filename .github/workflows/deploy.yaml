@@ -41,16 +41,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: test
-        run:
-          echo 
       - name: 'Build ${{ matrix.app }} with cache and push to registry'
         uses: docker/build-push-action@v5
         with:
           push: 'true'
-          img: ${{ steps.lower_repo.outputs.message }}
-          tags: '${{ img }}/${{ matrix.app }}:latest,${{ img }}/${{ matrix.app }}:${{ github.sha }}'
-          cache-from: 'type=registry,ref=${{ img }}:latest'
+          tags: '${{ steps.lower_repo.outputs.message }}/${{ matrix.app }}:latest,${{ steps.lower_repo.outputs.message }}/${{ matrix.app }}:${{ github.sha }}'
+          cache-from: 'type=registry,ref=${{ steps.lower_repo.outputs.message }}:latest'
           cache-to: 'type=inline'
           context: '${{ matrix.app }}'
 
