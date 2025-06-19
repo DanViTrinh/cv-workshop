@@ -9,10 +9,6 @@ on:
       - 'infrastructure/**'
       - '.github/workflows/deploy.yaml'
 
-env:
-  IMAGE_NAME: ${ IMAGE_NAME }
-
-
 jobs:
   build:
     name: 'Build ${{ matrix.app }}'
@@ -51,12 +47,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: test
+        run:
+          echo 
       - name: 'Build ${{ matrix.app }} with cache and push to registry'
         uses: docker/build-push-action@v5
         with:
           push: 'true'
-          tags: '${{ env.IMAGE_NAME }}/${{ matrix.app }}:latest,${{ env.IMAGE_NAME}}/${{ matrix.app }}:${{ github.sha }}'
-          cache-from: 'type=registry,ref=${{ env.IMAGE_NAME }}:latest'
+          tags: '${{ IMAGE_NAME }}/${{ matrix.app }}:latest,${{ IMAGE_NAME}}/${{ matrix.app }}:${{ github.sha }}'
+          cache-from: 'type=registry,ref=${{ IMAGE_NAME }}:latest'
           cache-to: 'type=inline'
           context: '${{ matrix.app }}'
 
