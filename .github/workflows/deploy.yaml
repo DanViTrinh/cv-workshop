@@ -9,9 +9,8 @@ on:
       - 'infrastructure/**'
       - '.github/workflows/deploy.yaml'
 
-
 env:
-  IMAGE_NAME: 'ghcr.io/${{ github.repository }}'
+  IMAGE_NAME: 'ghcr.io/${{ lower(github.repository) }}'
 
 jobs:
   build:
