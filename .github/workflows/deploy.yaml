@@ -33,6 +33,8 @@ jobs:
           # Access the output from the previous step
           IMAGE_NAME='ghcr.io/${{ steps.lower_repo.outputs.repository }}'
           echo "The image name is: $IMAGE_NAME"
+          env.IMAGE_NAME=$IMAGE_NAME
+          
           
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,8 +56,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: 'true'
-          tags: '${{ IMAGE_NAME }}/${{ matrix.app }}:latest,${{ IMAGE_NAME}}/${{ matrix.app }}:${{ github.sha }}'
-          cache-from: 'type=registry,ref=${{ IMAGE_NAME }}:latest'
+          tags: '${{ env.IMAGE_NAME }}/${{ matrix.app }}:latest,${{ env.IMAGE_NAME}}/${{ matrix.app }}:${{ github.sha }}'
+          cache-from: 'type=registry,ref=${{ env.IMAGE_NAME }}:latest'
           cache-to: 'type=inline'
           context: '${{ matrix.app }}'
 
